@@ -1,0 +1,27 @@
+from Standard.Base import all
+from Standard.Table import all
+from Standard.Database import all
+from Standard.AWS import all
+from Standard.Google_Api import all
+from Standard.Snowflake import all
+import Standard.Examples
+import Standard.Visualization
+
+main =
+    file1 = Data.read '/Users/adriley/Code/AOC-2024-Enso/Day1/input.txt'
+    any1 = file1.split ['\n\n']
+    any2 = any1.to_table
+    table1 = any2.add_row_number "Elf"
+    table2 = table1.split_to_rows 'Value' ['\n', '\r\n', '\r']
+    table3 = table2.parse ['Value'] ..Integer
+    any3 = table3.aggregate ['Elf'] [..Sum 'Value']
+    any4 = any3.aggregate columns=[..Maximum 'Sum Value']
+    any5 = any3.sort [(..Name 'Sum Value' ..Descending)]
+    table4 = any5.take (..First 3)
+    any6 = table4.aggregate columns=[..Sum 'Sum Value']
+
+
+
+#### METADATA ####
+[[{"index":{"value":270},"size":{"value":60}},"fcf199e6-d2b1-44b7-be92-a47545d6a593"],[{"index":{"value":342},"size":{"value":11}},"3ce084c5-9c8f-4353-8361-0aaecf7099e2"],[{"index":{"value":342},"size":{"value":20}},"16e61749-99be-4ef1-aa86-0e6227893127"],[{"index":{"value":374},"size":{"value":13}},"85dc7d8c-098c-4208-b79d-ed20c7493e24"],[{"index":{"value":401},"size":{"value":19}},"60c556ef-077c-4d29-baf3-2e6147276026"],[{"index":{"value":401},"size":{"value":25}},"b27895a5-20d1-4e2f-b47c-c7ba513c8915"],[{"index":{"value":440},"size":{"value":20}},"0a45d776-81b0-420f-b468-deaa46c4b2bb"],[{"index":{"value":440},"size":{"value":28}},"00d7e1a2-5db5-4b2f-a28d-5a90c9298fe4"],[{"index":{"value":440},"size":{"value":49}},"4e7dc952-c06c-47c2-8d7a-70f728f70494"],[{"index":{"value":503},"size":{"value":12}},"300206c9-f811-44c8-8c42-415cd0c98592"],[{"index":{"value":503},"size":{"value":22}},"458cae64-433f-4ee4-bdcd-986ea54f3ab3"],[{"index":{"value":503},"size":{"value":32}},"b0b7b546-54a1-4676-a257-6dec4d9e559b"],[{"index":{"value":547},"size":{"value":16}},"5c997fb3-8a00-454d-be60-3eaf49236037"],[{"index":{"value":547},"size":{"value":24}},"1954a2ad-119b-4ce6-b8c0-252eb9cb4004"],[{"index":{"value":547},"size":{"value":40}},"4ac5277c-ead3-4417-8589-91446c8d9a21"],[{"index":{"value":599},"size":{"value":14}},"c3e4a9d1-3969-4e30-9407-9b10f335aabb"],[{"index":{"value":599},"size":{"value":46}},"137af748-b782-4323-9de4-247293596a73"],[{"index":{"value":657},"size":{"value":9}},"48a1d761-6366-4bc5-910d-0be96e0f35b5"],[{"index":{"value":657},"size":{"value":45}},"0117dcfe-ca87-4171-8158-5a8042b2320e"],[{"index":{"value":716},"size":{"value":9}},"64eb6bcd-31d5-4b3f-a7d8-92324516ca05"],[{"index":{"value":716},"size":{"value":21}},"c339446b-9c35-408a-b4f5-3cb1d7fe0083"],[{"index":{"value":749},"size":{"value":16}},"f144ecdf-17f9-4e5c-aeed-b28eb62c7e3a"],[{"index":{"value":749},"size":{"value":44}},"31429ef7-73ea-48db-82c8-f299d7c7286d"]]
+{"ide":{"node":{"fcf199e6-d2b1-44b7-be92-a47545d6a593":{"position":{"vector":[-682,780]},"visualization":{"show":false,"width":1061.8125,"height":319.92578125}},"16e61749-99be-4ef1-aa86-0e6227893127":{"position":{"vector":[-682,708]},"visualization":{"show":false,"width":723.18359375,"height":389.04296875}},"3ce084c5-9c8f-4353-8361-0aaecf7099e2":{"position":{"vector":[-682,264]}},"85dc7d8c-098c-4208-b79d-ed20c7493e24":{"position":{"vector":[-682,636]}},"b27895a5-20d1-4e2f-b47c-c7ba513c8915":{"position":{"vector":[-682,564]},"visualization":{"show":true,"height":315.53515625}},"60c556ef-077c-4d29-baf3-2e6147276026":{"position":{"vector":[-682,25]}},"4e7dc952-c06c-47c2-8d7a-70f728f70494":{"position":{"vector":[-682,176]},"visualization":{"show":false,"height":285.04296875}},"00d7e1a2-5db5-4b2f-a28d-5a90c9298fe4":{"position":{"vector":[-682,176]}},"0a45d776-81b0-420f-b468-deaa46c4b2bb":{"position":{"vector":[-682,176]}},"b0b7b546-54a1-4676-a257-6dec4d9e559b":{"position":{"vector":[-682,104]}},"458cae64-433f-4ee4-bdcd-986ea54f3ab3":{"position":{"vector":[-682,104]}},"300206c9-f811-44c8-8c42-415cd0c98592":{"position":{"vector":[-682,104]}},"4ac5277c-ead3-4417-8589-91446c8d9a21":{"position":{"vector":[-682,8]}},"1954a2ad-119b-4ce6-b8c0-252eb9cb4004":{"position":{"vector":[-682,104]}},"5c997fb3-8a00-454d-be60-3eaf49236037":{"position":{"vector":[-682,104]}},"137af748-b782-4323-9de4-247293596a73":{"position":{"vector":[-682,-64]},"visualization":{"show":true}},"c3e4a9d1-3969-4e30-9407-9b10f335aabb":{"position":{"vector":[-682,-64]}},"0117dcfe-ca87-4171-8158-5a8042b2320e":{"position":{"vector":[-118,-104]}},"48a1d761-6366-4bc5-910d-0be96e0f35b5":{"position":{"vector":[-97,-39]}},"c339446b-9c35-408a-b4f5-3cb1d7fe0083":{"position":{"vector":[-118,-245]}},"64eb6bcd-31d5-4b3f-a7d8-92324516ca05":{"position":{"vector":[-118,-157]}},"31429ef7-73ea-48db-82c8-f299d7c7286d":{"position":{"vector":[-118,-317]},"visualization":{"show":true}},"f144ecdf-17f9-4e5c-aeed-b28eb62c7e3a":{"position":{"vector":[-118,-317]}}},"widget":{},"snapshot":"eJx9UstO6zAQ3fcrRmwM0mVC08Kui0ILYgEscoFFWkVTMoks/IhsR7T366+cNqU8Vx7pvObYrpzVkAUyJbkSL8kzSN1YF4CUGlQf0L+0Ur/AMwq0+tVg+pz9DN5YWysupo38mZMZ+1Ypev2QsRv3pPmadKPYfwGepG9JyX8UpDWDgSZpYDIAAKik4iFMIFZAx1SCSB49O59Q6aTiTXJlS06mD1en6Vk6Pp0bb5MZbYaJNE0bMKyD6IzIbKJP54e+UTJALhZmYcSyx1OYdDQMtgjxRjugm4ZbKEUqy8LZt8K0esUOjuaqOnqnRYctfxtRBBvZHsQTqZZFFyn+gFi4/tzFd6pRL0+xIecZ8p1uCYi3JnDNrl92zx0h1bXjmkLkz1UllpAjZq3uU/cFx9sWh4oXq1pt/CRHvKO11FEVpZ+U573Sx3fLjxHvSfMhFRBn7F/YlNLUJweldqHnGOLvOEa8ls4HGJ303hd9k/H3e2Wfd/oPA6wCbA=="}}

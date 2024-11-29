@@ -1,0 +1,5 @@
+name: 2022Day1Test
+namespace: local
+version: 0.0.1
+edition: 2024.5.1-rc1
+prefer-local-libraries: 'true'
