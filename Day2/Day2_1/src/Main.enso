@@ -1,0 +1,68 @@
+from Standard.Base import all
+from Standard.Table import all
+from Standard.Database import all
+from Standard.AWS import all
+from Standard.Google_Api import all
+from Standard.Snowflake import all
+import Standard.Examples
+import Standard.Visualization
+import local.Day2
+
+## ICON group
+check_rules report =
+    vector3 = report.map .parse_integer
+    vector2 = vector3.drop (..First 1)
+    ## Calculate the difference in levels
+    vector4 = vector3.zip vector2 .-
+    node1 = vector4.map x->(x.abs >= 1 && x.abs <= 3)
+    ## Calculate any two adjacent levels differ by at least one and at most three.
+    any5 = node1.fold True .&&
+    ## Calculate the sign of the differnce as 1 or -1
+    node2 = vector4.map x->x/x.abs
+    sum_of_integer_diffs = node2.fold 0 .+
+    number_of_levels = node2.length
+    ## Calculate if the levels are either all increasing or all decreasing.
+    node3 = sum_of_integer_diffs.abs == number_of_levels
+    ## Safe if both rules pass
+    boolean1 = any5.&& node3
+    boolean1
+
+## ICON group
+remove_one_element_and_check_rules report =
+    integer2 = report.length
+    range1 = 0.up_to integer2 False
+    vector4 = range1.to_vector
+    ## Create n copies of the report removing the nth element each time
+    vector6 = vector4.map n->(report.remove n)
+    node8 = Main.check_rules
+    ## Check the rules for each of these copies
+    vector7 = vector6.map node8
+    ## If any of these copies pass then thanks to the Problem Dampener this report can pass
+    any1 = vector7.reduce .||
+    any1
+
+main =
+    file1 = Data.read '/Users/adriley/Code/AOC-2024-Enso/Day2/input.txt'
+    ## Split on newlines into reports
+    any1 = file1.split '\n'
+    ## Split each report on space into vectors
+    vector1 = any1.map x->(x.split ' ')
+    node2 = vector1.drop ..Last
+    ## Choose a row here to debug the collapsed components
+    any3 = node2.at 24
+    node4 = Main.check_rules any3
+    vector5 = node2.map check_rules
+    any7 = Main.remove_one_element_and_check_rules any3
+    vector4 = node2.map remove_one_element_and_check_rules
+    vector2 = vector4.filter ..Is_True
+    ## Part 2
+    integer1 = vector2.length
+    vector3 = vector5.filter ..Is_True
+    ## Part 1
+    integer2 = vector3.length
+
+
+
+#### METADATA ####
+[]
+{"ide":{"node":{"198ef662-9f7e-4630-9e60-5bb12adbf8b3":{"position":{"vector":[-16,88]}},"a9b58d01-9fda-4936-8849-701e8b0f63a4":{"position":{"vector":[-16,16]}},"749b7f97-e094-4fa8-9828-2c400db9c443":{"position":{"vector":[-16,-56]}},"fcf43bce-033b-4b05-8476-cdcf059241ae":{"position":{"vector":[-16,-128]}},"7828f30a-4fe7-4b5e-9540-4ad9545d3aba":{"position":{"vector":[-16,-276]}},"9feb8616-244b-4e69-914e-bd92aa728f83":{"position":{"vector":[-16,-385]}},"179a7d22-db0a-44c6-9127-bf7987c3c000":{"position":{"vector":[598,-293]}},"ed60e952-34b5-49e2-a191-b15e226a8528":{"position":{"vector":[598,-365]}},"832a632f-c0fd-4e86-8d61-e800b0572843":{"position":{"vector":[861,-416]}},"ffd8775f-a53f-41f5-a0b4-cb59e643ff34":{"position":{"vector":[598,-488]}},"bbd0c1c5-c320-41bf-afed-567d65ce8afb":{"position":{"vector":[-16,-560]}},"c83e84ac-b5ac-4042-84f4-0cac62ce8146":{"position":{"vector":[-16,-667]}},"2161bfa8-c5ed-4e71-ae87-3e8d537a9a97":{"position":{"vector":[-16,88]}},"67f4d026-7228-4ef6-b5b5-4bac8d424fac":{"position":{"vector":[-16,16]}},"a3c4b5ec-dca1-483a-aec7-eeecf94493b7":{"position":{"vector":[-16,-56]}},"4e223a6a-e1e3-4fdf-835d-334a54952fe6":{"position":{"vector":[-16,-128]}},"c171ad8b-6339-4774-b4f1-9f4804f3a8c5":{"position":{"vector":[-16,-200]}},"2b5a3b8c-e040-42ac-a38a-62fddc7dd8f7":{"position":{"vector":[58,-272]}},"72581558-5f09-4f63-b1a6-ab6afa38d4c8":{"position":{"vector":[-16,-344]}},"399112c0-42e5-4eef-b4cb-41eddd2c888b":{"position":{"vector":[-16,-416]}},"6331023c-9888-49c3-9f49-b2f8bc5fd4ac":{"position":{"vector":[-16,-488]}},"db32ea94-7d17-4fbc-aa04-6bef8db9eb02":{"position":{"vector":[-16,16]}},"44ad6128-8c52-42be-95e5-11e46b6f798b":{"position":{"vector":[-16,-56]}},"7d8e681f-14a8-4951-aa1f-4b4900a07aa4":{"position":{"vector":[-16,-128]}},"0df8117b-2644-463a-b12e-73768396461e":{"position":{"vector":[-16,-200]}},"19ce0665-bcbb-4ec1-a886-9173068a845a":{"position":{"vector":[292,-272]}},"0f82f43c-09e6-4cea-82ba-4178a01d05fc":{"position":{"vector":[39,-382]}},"73c1ec35-bd6e-49c4-acc5-5dc91a8c7a6a":{"position":{"vector":[-16,-416]}},"c1f15308-0c1f-44b3-b11f-67bea7dcbbda":{"position":{"vector":[431,-382]}},"d2cd3638-c607-489a-8f65-05e67a545ba0":{"position":{"vector":[375,-416]}},"0127e9f1-d48e-4b22-9001-5a042ac1d45d":{"position":{"vector":[375,-510]}},"88118fd4-1473-46b5-87f4-ef3ab93ff857":{"position":{"vector":[375,-601]}},"061de08b-b075-4c6a-b022-52cc897dd78b":{"position":{"vector":[-16,-510]}},"945facf7-283d-4a42-a779-fdec2d42ff64":{"position":{"vector":[-16,-601]}}},"widget":{},"snapshot":"eJyNVU1v40YMvftXEAjgJFh4HDveTQ91gDTZLQK03QWy214KCLREWdOMSGFmlNiL/fHFjD4sO07am00+PT6ST1RupYQHj5yhzdQv6Ah0WYn1gMaM8r3sV1yZN9J36HH1JsHNXw+vJ38VWRtKbir9OuaB5Tk3+LhXo/3Zgz5usKwMuReJP7Wr0ejv6LVwlzWSolF3uJ2PRicncH/7+Q9YW6mrUVpQ+pjY2pADSxG8HAEAPFHqxV7Csg2rEitQFVpHiWZPa7ID3ByW3RMqs1LBmVKftHUeZucRdnICt2jS2qAn8AVBpvOcLHFKoBkMPZFxA8LFgPC7rvoyahJBLBnNesgiittMrs82ClcOrpcwg/EYmn8/L+HyiAjkLfhnAcz+wZTYtxpaYbDaAoYYOg/CAZ6FQCnOgy8skYqUyNv3sGz0qFxMBl9tTaDG4+NtO71mkHwwgjABdDADsTCZ9d3NX3a3mcaGIsTVZSJ5t4kkULlWx7zRcQHqXcNWlyuyAd122MEM8doXL3XqRl6LRktA2hdkgxFBc2oJneZ1EBwiGXUR1asPvjkmMS5kuXyhqRPxgHmsvxJfQOPKCl2TXokYQg5rD1NX43FTai956G9LpTxRIkwJGSqJfYKcJa/avlU73/l+MCWLvI62u1B1lXjZoT+hcXRg3watvCRNrB+0pTBlhlQqTa5zQysjCg7TDTH2BbSygTAtwOtyWObDgUl4cn3Wym4aBz7vd/ITLOF31KwGzfeaQqiREWeSi20KNuIctWIHta/62h+a2qFEx3efx/fr4Om4yxBh8AXyowMvsegXKytDJdxhWRGTBV/ofjEp8s4EyNvde3+lLGV1SqB+/Oizo1GJmtt15trEhYWzrSxhBqfTb46sm2JmtaHt9FYymt58vp3ML+aLyUd2Mg13cqq5qr3yG3/ae7MyOtwCYHo2msmF9Uurck9drKpcxJ/+zQcMca5tb8LgKow30Evb1XDIrdlngwPX0sLp+ZFbMWuur1K/ofO75Yo4AgQrz1CQpTD2jFZ1Y7JUjMHKUQaplJUw8a6by/5YoIf5oq+4OOKliB9of98/G8Qfmg55e9WR/I+X9IB7scf9388f/VQtVK6NJwtK3bsk3O1uYl/QepgPD8LOdHt3c/eVbHt+m3J2eGO6T1xL+S+hR9AV"}}
