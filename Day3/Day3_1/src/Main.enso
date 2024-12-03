@@ -1,0 +1,26 @@
+from Standard.Base import all
+from Standard.Table import all
+from Standard.Database import all
+from Standard.AWS import all
+from Standard.Google_Api import all
+from Standard.Snowflake import all
+import Standard.Examples
+import Standard.Visualization
+
+main =
+    file1 = Data.read '/Users/adriley/Code/AOC-2024-Enso/Day3/input.txt'
+    any2 = Regex.compile "(?:^|(?:do\(\)))(.*?)(?:$|(?:don't\(\)))"
+    vector4 = any2.tokenize file1
+    any6 = vector4.fold "" .+
+    any5 = file1.parse_to_table (regex "mul\((\d*),(\d*)\)")
+    ## Part 1
+    any8 = any5.aggregate columns=[..Sum (expr '[Column 1]*[Column 2]')]
+    any11 = any6.parse_to_table (regex "mul\((\d*),(\d*)\)")
+    ## Part 2
+    any12 = any11.aggregate columns=[..Sum (expr '[Column 1]*[Column 2]')]
+
+
+
+#### METADATA ####
+[[{"index":{"value":270},"size":{"value":60}},"8a55cedd-a80f-41e1-8b77-45c050936f88"],[{"index":{"value":342},"size":{"value":56}},"0e48c925-f696-4c59-afa9-3853603902ee"],[{"index":{"value":413},"size":{"value":19}},"1726189a-af33-4fd1-9f45-05b4211a4368"],[{"index":{"value":444},"size":{"value":18}},"6528e499-14d4-4ca8-b400-c9b1644f278b"],[{"index":{"value":474},"size":{"value":20}},"fa633944-fd8d-42f7-8ed9-056eb2c9c7a5"],[{"index":{"value":474},"size":{"value":49}},"dc674418-6ad6-4aa6-8062-958c9e6ec87f"],[{"index":{"value":549},"size":{"value":14}},"0ca1e4b2-2127-4584-84c6-0e5c5887d1fb"],[{"index":{"value":549},"size":{"value":61}},"76e8a985-2232-450a-baa0-a478a7d23086"],[{"index":{"value":623},"size":{"value":48}},"dd983892-1f04-454d-81f7-05bb202d502e"],[{"index":{"value":698},"size":{"value":62}},"6881005f-f9f3-4954-b279-17281389a330"]]
+{"ide":{"node":{"8a55cedd-a80f-41e1-8b77-45c050936f88":{"position":{"vector":[456,-239]}},"0e48c925-f696-4c59-afa9-3853603902ee":{"position":{"vector":[1002,-187]}},"1726189a-af33-4fd1-9f45-05b4211a4368":{"position":{"vector":[1002,-311]},"visualization":{"show":false,"width":553.2265625,"height":438.2239583333333}},"6528e499-14d4-4ca8-b400-c9b1644f278b":{"position":{"vector":[1002,-383]},"visualization":{"show":false,"width":438.7005208333333,"height":252.21875}},"dc674418-6ad6-4aa6-8062-958c9e6ec87f":{"position":{"vector":[456,-455]}},"fa633944-fd8d-42f7-8ed9-056eb2c9c7a5":{"position":{"vector":[1337,-384]}},"76e8a985-2232-450a-baa0-a478a7d23086":{"position":{"vector":[456,-528]}},"0ca1e4b2-2127-4584-84c6-0e5c5887d1fb":{"position":{"vector":[1571,-456]}},"dd983892-1f04-454d-81f7-05bb202d502e":{"position":{"vector":[1002,-455]}},"6881005f-f9f3-4954-b279-17281389a330":{"position":{"vector":[1002,-528]}}},"widget":{},"snapshot":"eJydkd1LwzAUxd/3V1w6oel0qa0fyKCMOcVHxfnxYOe4rrclLE1Kmuo2/ONlrR0McQ97CZd7Tn7nhKRG5zCxqBI0Cb/GkkDkhTYWUMpOuqM+4YfcI9+gxY+9gNHr5H/xTutM0mxUiP89E6W/UomLnYzfcWu6XWJeSCr/CC+irFCKNVqhVaeTo1AQdQAAUiEpgAg2T+CGMAHXfy7JlD4mRkha+WOdkD+6H/fD0/C8f6tK7d/g6swXqqgst0vr1iBUqxAieKSMlnyu80JIAocNB+/fbDhIdMxiz/MY7w09NhwcNUvl2mbv1IxPmlttziGqadzqBSmxpqZkm3IJUWvkqZYJOA7w41a9gKix8wJNSTOrZ7b+PGY2zcDJKxkzFic976Q+Y8/x6svdLjygsbANump6XHDMMkMZWoK5llWuyuiN80mVA6NlYcB9G9drCKa9dgynrjdtQUHQkC4P7hRuUWGDCoLDW/0AmAXyTA=="}}
