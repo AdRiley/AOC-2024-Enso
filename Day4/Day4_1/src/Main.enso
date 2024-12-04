@@ -1,0 +1,78 @@
+from Standard.Base import all
+from Standard.Table import all
+from Standard.Database import all
+from Standard.AWS import all
+from Standard.Google_Api import all
+from Standard.Snowflake import all
+import Standard.Examples
+import Standard.Visualization
+
+## ICON group
+make_grids table4 n =
+    n_minus_one = n.- 1
+    any2 = table4.set (..Simple_Expr (..Name 'Row') (..Add n_minus_one)) "MaxRow"
+    any3 = any2.set (..Simple_Expr (..Name 'Column') (..Add n_minus_one)) "MaxColumn"
+    table5 = any3.join any3 ..Inner [..Between 'Row' 'Row' 'MaxRow', ..Between 'Column' 'Column' 'MaxColumn']
+    ## Each Grid is all of the nxn squares in the full puzzle
+    any4 = table5.rename_columns [(Pair.Value 'Right Cell_Id' 'Grid_Id')]
+    any9 = any4.aggregate ['Grid_Id', 'Row'] [..Concatenate 'Data']
+    any1 = any9.at 'Concatenate Data'
+    node2 = any1.map x->(x.pad n "*")
+    any5 = any9.set node2 "Data"
+    any8 = any5.sort [(..Name 'Grid_Id'), (..Name 'Row')]
+    any7 = any8.aggregate ['Grid_Id'] [..Concatenate 'Data']
+    any6 = any7.at 'Concatenate Data'
+    any6
+
+main =
+    file1 = Data.read '/Users/adriley/Code/AOC-2024-Enso/Day4/input.txt' ..Delimited
+    any1 = file1.rename_columns [(Pair.Value 'Column 1' 'Data')]
+    table1 = any1.add_row_number "Row"
+    table2 = table1.parse_to_columns 'Data' "."
+    table3 = table2.add_row_number "Column" group_by=['Row']
+    table4 = table3.add_row_number "Cell_Id"
+    any10 = Main.make_grids table4 3
+    ## Check all possible X-MAS combinations
+       M*S   S*M   M*M   S*S
+       *A*   *A*   *A*   *A*
+       M*S   S*M   S*S   M*M   
+    any11 = any10.map x->(x.find_all "(M.S.A.M.S)|(S.M.A.S.M)|(M.M.A.S.S)|(S.S.A.M.M)").length
+    ## Part 2
+    any12 = any11.compute ..Sum
+    any2 = Main.make_grids table4 4
+    ## Count horizontal
+       XMAS   SAMX
+       ****   ****
+       ****   ****
+       ****   ****
+    any3 = any2.map x->(x.find_all "(^XMAS.{0,12})|(^SAMX.{0,12})").length
+    any4 = any3.compute ..Sum
+    ## Count vertical
+       X***   S***
+       M***   A***
+       A***   M***
+       S***   X***
+    any5 = any2.map x->(x.find_all "(X.{3}M.{3}A.{3}S.{3})|(S.{3}A.{3}M.{3}X.{3})").length
+    any6 = any5.compute ..Sum
+    ## Count back diagonal
+       X***   S***
+       *M**   *A**
+       **A*   **M*
+       ***S   ***X
+    any7 = any2.map x->(x.find_all "(X.{4}M.{4}A.{4}S)|(S.{4}A.{4}M.{4}X)").length
+    any8 = any7.compute ..Sum
+    ## Count forward diagonal
+       ***X   ***S
+       **M*   **A*
+       *A**   *M**
+       S***   X***
+    any9 = any2.map x->(x.find_all "(.{3}X.{2}M.{2}A.{2}S.{3})|(.{3}S.{2}A.{2}M.{2}X.{3})").length
+    any13 = any9.compute ..Sum
+    ## Part1
+    sum1 = any4 + any6 + any8 + any13
+
+
+
+#### METADATA ####
+[[{"index":{"value":276},"size":{"value":6}},"1000caf1-5b50-47e3-99cf-2c6437249c32"],[{"index":{"value":283},"size":{"value":1}},"0562012c-f65c-4bd3-ba74-09e51274b87a"],[{"index":{"value":305},"size":{"value":5}},"eaa810d9-e4d4-4ae9-aa62-177cbde4853f"],[{"index":{"value":322},"size":{"value":70}},"37ead5b2-3f3c-4167-b74c-e6bfd129ba8e"],[{"index":{"value":404},"size":{"value":74}},"1db27851-133b-4f03-8156-cbb827ec483e"],[{"index":{"value":492},"size":{"value":96}},"bab567a7-bb1e-49aa-8b9d-d93196771bb9"],[{"index":{"value":662},"size":{"value":62}},"6e0675bb-42fa-42a3-b14e-28cb2882d96b"],[{"index":{"value":736},"size":{"value":56}},"99d828c1-d426-40da-b209-8d10eae1f89d"],[{"index":{"value":804},"size":{"value":26}},"d7555e57-0367-45a0-bd8c-5cbc8c9157eb"],[{"index":{"value":843},"size":{"value":25}},"68eadb75-a591-4520-81ea-17131ef50ae7"],[{"index":{"value":880},"size":{"value":21}},"e2b623bb-fe64-4e14-b21e-e12341b4af09"],[{"index":{"value":913},"size":{"value":46}},"28a01741-27b4-4634-92e9-100ef4a1ca1f"],[{"index":{"value":971},"size":{"value":49}},"75a264a2-5891-46a3-967c-aacb939191ce"],[{"index":{"value":1032},"size":{"value":26}},"447a7c9c-1adc-4f38-b041-10c0f6ca26ef"],[{"index":{"value":1063},"size":{"value":4}},"ace3782f-1e63-4192-829c-290c09968b1f"],[{"index":{"value":1088},"size":{"value":72}},"fcf199e6-d2b1-44b7-be92-a47545d6a593"],[{"index":{"value":1172},"size":{"value":53}},"d94df9a0-7082-4cf8-ba4f-4dfc6f37edbc"],[{"index":{"value":1239},"size":{"value":25}},"4df43bb6-c4ad-44f3-9f8f-1923e1226d5e"],[{"index":{"value":1278},"size":{"value":34}},"5d979664-3854-4222-841a-55a2c637670d"],[{"index":{"value":1326},"size":{"value":47}},"f262947b-20d5-4ea5-89a2-1dd8b3764849"],[{"index":{"value":1387},"size":{"value":31}},"8d2c2ec6-5bba-4c8a-b8dc-6fbbd634ed62"],[{"index":{"value":1431},"size":{"value":24}},"575b33ab-726a-45bd-8db9-be3398810e24"],[{"index":{"value":1603},"size":{"value":82}},"6fecb7af-d737-4976-8b55-f2af364a4662"],[{"index":{"value":1712},"size":{"value":19}},"6f652c1a-735d-4fb4-9c47-093309d5e113"],[{"index":{"value":1743},"size":{"value":24}},"a55a0755-4f79-4bd9-95ff-f8683c34d535"],[{"index":{"value":1879},"size":{"value":63}},"5f8beda1-e609-47ed-ad67-eb0cf31597cb"],[{"index":{"value":1954},"size":{"value":18}},"106d08d2-bd38-445f-9d72-dd34e00f249b"],[{"index":{"value":2082},"size":{"value":79}},"33e3c557-aa4f-4aa7-afd8-7917c0d612db"],[{"index":{"value":2173},"size":{"value":18}},"60f62ad7-e652-44c5-bbde-ee0ccb75e7e6"],[{"index":{"value":2306},"size":{"value":71}},"7630a4f8-39e3-405f-8a47-2eb5abc11cf7"],[{"index":{"value":2389},"size":{"value":18}},"cfa8a7c5-65de-4117-955f-6cd314d0643a"],[{"index":{"value":2525},"size":{"value":87}},"5e8cd126-9607-46a5-afd1-9815851ee77e"],[{"index":{"value":2625},"size":{"value":18}},"a9c6cc0f-3710-4833-b0c8-9b5a2ee57f3f"],[{"index":{"value":2668},"size":{"value":26}},"6bd6056c-4a30-4d2e-a0d3-c06670062c9a"]]
+{"ide":{"node":{"1000caf1-5b50-47e3-99cf-2c6437249c32":{"position":{"vector":[-16,279]}},"0562012c-f65c-4bd3-ba74-09e51274b87a":{"position":{"vector":[318,300]}},"eaa810d9-e4d4-4ae9-aa62-177cbde4853f":{"position":{"vector":[318,181]}},"37ead5b2-3f3c-4167-b74c-e6bfd129ba8e":{"position":{"vector":[-16,109]}},"1db27851-133b-4f03-8156-cbb827ec483e":{"position":{"vector":[-16,37]},"visualization":{"show":true,"width":821.4071180555555,"height":173.65017361111111}},"bab567a7-bb1e-49aa-8b9d-d93196771bb9":{"position":{"vector":[-16,-200]}},"6e0675bb-42fa-42a3-b14e-28cb2882d96b":{"position":{"vector":[-16,-272]}},"99d828c1-d426-40da-b209-8d10eae1f89d":{"position":{"vector":[-16,-344]}},"d7555e57-0367-45a0-bd8c-5cbc8c9157eb":{"position":{"vector":[-16,-416]}},"68eadb75-a591-4520-81ea-17131ef50ae7":{"position":{"vector":[-16,-488]}},"e2b623bb-fe64-4e14-b21e-e12341b4af09":{"position":{"vector":[-16,-560]}},"28a01741-27b4-4634-92e9-100ef4a1ca1f":{"position":{"vector":[-16,-632]}},"75a264a2-5891-46a3-967c-aacb939191ce":{"position":{"vector":[-16,-704]}},"447a7c9c-1adc-4f38-b041-10c0f6ca26ef":{"position":{"vector":[-16,-776]},"visualization":{"show":true,"width":288.2057291666667,"height":172.73871527777777}},"ace3782f-1e63-4192-829c-290c09968b1f":{"position":{"vector":[-16,-1021]}},"fcf199e6-d2b1-44b7-be92-a47545d6a593":{"position":{"vector":[-16,-72]}},"d94df9a0-7082-4cf8-ba4f-4dfc6f37edbc":{"position":{"vector":[-16,-144]}},"4df43bb6-c4ad-44f3-9f8f-1923e1226d5e":{"position":{"vector":[-16,-216]}},"5d979664-3854-4222-841a-55a2c637670d":{"position":{"vector":[-16,-288]}},"f262947b-20d5-4ea5-89a2-1dd8b3764849":{"position":{"vector":[-16,-360]}},"8d2c2ec6-5bba-4c8a-b8dc-6fbbd634ed62":{"position":{"vector":[-16,-432]}},"575b33ab-726a-45bd-8db9-be3398810e24":{"position":{"vector":[616,-504]}},"6fecb7af-d737-4976-8b55-f2af364a4662":{"position":{"vector":[616,-625]}},"6f652c1a-735d-4fb4-9c47-093309d5e113":{"position":{"vector":[616,-697]}},"a55a0755-4f79-4bd9-95ff-f8683c34d535":{"position":{"vector":[-16,-504]}},"5f8beda1-e609-47ed-ad67-eb0cf31597cb":{"position":{"vector":[-16,-648]}},"106d08d2-bd38-445f-9d72-dd34e00f249b":{"position":{"vector":[-16,-720]}},"33e3c557-aa4f-4aa7-afd8-7917c0d612db":{"position":{"vector":[171,-792]}},"60f62ad7-e652-44c5-bbde-ee0ccb75e7e6":{"position":{"vector":[171,-843]}},"7630a4f8-39e3-405f-8a47-2eb5abc11cf7":{"position":{"vector":[359,-933]}},"cfa8a7c5-65de-4117-955f-6cd314d0643a":{"position":{"vector":[359,-988]}},"5e8cd126-9607-46a5-afd1-9815851ee77e":{"position":{"vector":[566,-1077]}},"a9c6cc0f-3710-4833-b0c8-9b5a2ee57f3f":{"position":{"vector":[566,-1126]}},"6bd6056c-4a30-4d2e-a0d3-c06670062c9a":{"position":{"vector":[-16,-1198]}}},"widget":{},"snapshot":"eJyVVsFu2zgQvfsrBs5BlhLTsSy3ycELqE5Q5KC2qLatgSAVaIu2uZFILUWtnTT59wVJUVHqWIu90NTw8c28meEka8FziCVmKRYp+oBLAjQvuJCAs6y3fnX6J15mHcdXWOJlJ0H4Iz5++JHzTUaSsKDHMTHju3WG71/5qLcN6HqP8yIj5cHBd1pWOKOPWFLOer2TE7iZf/4EG8Gropfje5JsBE1LkEpnAAxmPQAAluSUVWXCGYEZMDSEsbZj9uDDrEajkkgYIBRT5Tu53hdCfX7COQHnK985rvoM07RN57rQj/D+K9/1LeMEZpq4k2/OsypnXZQGYVh1gFPDO0F/ccqMI4RuGCMCbhH6QOSOEGYitauJzDmD1nntubVpnDl32tvJCVzj1RY+CpoCLVWFgK9BbgmwPYPy7woLUgJl2rSusgyK6vExIzYDgc3pFAnCcE6SleYv4XbwBVOBvuOsUkmlm62EOcmy5CZ1wFEO1c69s0yXRnOA8GYjyAZLArcN7MzIvFPy55ytsCRMIRzVxk7DMTYclwhLJfoFp2GmP3hKfAMboxwXsB/+MdijAqfAoO/1Xcs1tVyqtuZWX9E0xb8wgCkqVd/eNvVupJ391lNNmO/NzYs3pf6Xxnfm8vsOjQrV6+WY2kexphlRuVEQJAhOwRl9K4koRzgVNCMPozlPySj8PB/6534wvGYlH13hh2BEWVFJJPfSAYSuSEZzKknazrfm7i6+aTkYO7WWOhO6b8a2FjhNE8F3CavyJRHQb96ZhjVvd4wKLEqSSN44M6TQRy38xOL9A+L6tZlJkiwfZremt14uN009ObxsOrhpgvE5zCDClKHDkTSxT2y+Jat7/bYKXpZUzeXFMApjWPF8SZmecKUGA0DkxQAQe5HeR3of20Mv9A7Xt27Gem/uN7HaXJ+3Gn9NWZqo0PqDCMUoRBGK3adBjCIUohhF7tMgqvfGbjCR23dRRthGbq3KL1hI8Btn9pGN0YrnRSUJIBRXeXsYH8lb0OSNV0zClgv6yJnEmRW6ULkDiMNo0STG87z653+Y2iP8zZT8VK7Qr/Ozsf/sPg1+Kpf283UC6lmop/ah4EbMP0RIumpJMRHFrSAjYwpbptCYopYpNqZFS8q0U8oC/Zo8R2oJ1RKrRRfUWvSZRh1Ke2dnXYe0JV7dQ0rxhrNOfV7k1Y3bqovpZS9qlyo2P4vfxuZxfYHSECg1wbNpVvul7YtDXRd2mHboWnOxwyI9kKZCqwN9MUVeLaf1Yr1adEfpLjul1YXxlQxfCfKb8tWlrK36/EgJxxP7B+1Nrer1mv+UyiqvB0UAp6b4pyZXp4an9y9rbQNj"}}
