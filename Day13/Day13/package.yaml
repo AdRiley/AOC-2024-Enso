@@ -1,0 +1,5 @@
+name: Day13
+namespace: local
+version: 0.0.1
+edition: 2024.5.1-nightly.2024.12.13
+prefer-local-libraries: 'true'
