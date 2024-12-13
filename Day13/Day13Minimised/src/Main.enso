@@ -1,0 +1,36 @@
+from Standard.Base import all
+from Standard.Table import all
+from Standard.Database import all
+from Standard.AWS import all
+from Standard.Google_Api import all
+from Standard.Snowflake import all
+import Standard.Examples
+import Standard.Visualization
+
+## ICON group
+calculate_solution any15 =
+    any8 = any15.set (expr '([B_X]*[Prize_Y]-[B_Y]*[Prize_X])/(([A_Y]*[B_X])-[A_X]*[B_Y])') "A_Presses"
+    any9 = any8.set (expr '([A_X]*[Prize_Y]-[A_Y]*[Prize_X])/(([B_Y]*[A_X])-[B_X]*[A_Y])') "B_Presses"
+    ## Get all of the winning machine and button press combinations
+    any10 = any9.filter (expr '[A_Presses]=Floor([A_Presses]) && [B_Presses]=Floor([B_Presses])') ..Is_True ..Ignore
+    ## Calculate the cost of the wins
+    any11 = any10.set (expr '[A_Presses]*3+[B_Presses]') "Cost"
+    ## Calculate the total cost of winning on all the machines
+    any13 = any11.aggregate columns=[..Sum 'Cost']
+    any13
+
+main =
+    file1 = Data.read '/Users/adriley/Code/AOC-2024-Enso/Day13/input.txt'
+    any1 = file1.parse_to_table (regex "Button A: X\+(?<A_X>\d+), Y\+(?<A_Y>\d+)\nButton B: X\+(?<B_X>\d+), Y\+(?<B_Y>\d+)\nPrize: X=(?<Prize_X>\d+), Y=(?<Prize_Y>\d+)\n")
+    any14 = any1.set (expr '[Prize_X]+10000000000000') "Prize_X"
+    any15 = any14.set (expr '[Prize_Y]+10000000000000') "Prize_Y"
+    ## Part 2
+    any13 = Main.calculate_solution any15
+    ## Part 1
+    any2 = Main.calculate_solution any1
+
+
+
+#### METADATA ####
+[[{"index":{"value":284},"size":{"value":5}},"d119806a-986e-46b2-bd83-09a8a0202c4d"],[{"index":{"value":303},"size":{"value":9}},"f619e1b3-65c3-4ed6-ae9d-f9155609303d"],[{"index":{"value":303},"size":{"value":80}},"ba245f91-bd88-4fd5-ab8a-4f41f1e04a13"],[{"index":{"value":303},"size":{"value":92}},"84d5cda2-2cb6-4799-bd12-024767cee4d1"],[{"index":{"value":407},"size":{"value":91}},"077db97b-6562-4838-90a9-9cb7941d0b72"],[{"index":{"value":579},"size":{"value":95}},"7e58b29f-3578-468e-956a-694447ad3856"],[{"index":{"value":579},"size":{"value":104}},"23dea07d-c748-4750-9ca6-04578593789e"],[{"index":{"value":734},"size":{"value":51}},"0929f12b-9620-47f7-b5a4-38ffc817b53a"],[{"index":{"value":861},"size":{"value":38}},"a1db15c1-3e72-4b86-b73c-eb31cc2ffca1"],[{"index":{"value":904},"size":{"value":5}},"ef83c42a-2c1c-4a71-82b2-8471ecb38508"],[{"index":{"value":930},"size":{"value":61}},"fcf199e6-d2b1-44b7-be92-a47545d6a593"],[{"index":{"value":1003},"size":{"value":20}},"5b86bd6b-4c8d-48a2-9963-48cc5af494a4"],[{"index":{"value":1003},"size":{"value":160}},"5a0ae9a2-d021-4039-b752-95b2c98fad6d"],[{"index":{"value":1176},"size":{"value":8}},"05029dae-7d24-417b-ac02-feef471f5cc9"],[{"index":{"value":1176},"size":{"value":42}},"46f4f3b0-4bcb-4544-b1e8-8c694b4c25ff"],[{"index":{"value":1176},"size":{"value":52}},"b3954425-c469-414d-ac9f-1c6e761caeaf"],[{"index":{"value":1241},"size":{"value":53}},"d411f763-8a96-491d-a890-f8a3c57f3057"],[{"index":{"value":1321},"size":{"value":29}},"4800c66d-811f-4445-9470-7e73888e7d96"],[{"index":{"value":1376},"size":{"value":28}},"798c8890-4e91-448e-953c-cebebc0fce04"]]
+{"ide":{"node":{"d119806a-986e-46b2-bd83-09a8a0202c4d":{"position":{"vector":[-434,243]}},"84d5cda2-2cb6-4799-bd12-024767cee4d1":{"position":{"vector":[-434,171]},"visualization":{"show":false,"width":1558.296875,"height":398.17578125}},"ba245f91-bd88-4fd5-ab8a-4f41f1e04a13":{"position":{"vector":[-355,319]},"visualization":{"show":true,"width":1558.296875,"height":398.17578125}},"f619e1b3-65c3-4ed6-ae9d-f9155609303d":{"position":{"vector":[-329,315]}},"077db97b-6562-4838-90a9-9cb7941d0b72":{"position":{"vector":[-434,99]},"visualization":{"show":false,"width":1558.296875,"height":398.17578125}},"23dea07d-c748-4750-9ca6-04578593789e":{"position":{"vector":[-434,1]},"visualization":{"show":false,"width":1533.6796875,"height":166.3828125}},"7e58b29f-3578-468e-956a-694447ad3856":{"position":{"vector":[-293,145]},"visualization":{"show":false,"width":1533.6796875,"height":166.3828125}},"0929f12b-9620-47f7-b5a4-38ffc817b53a":{"position":{"vector":[-434,-71]}},"a1db15c1-3e72-4b86-b73c-eb31cc2ffca1":{"position":{"vector":[-434,-162]}},"ef83c42a-2c1c-4a71-82b2-8471ecb38508":{"position":{"vector":[-434,-234]}},"fcf199e6-d2b1-44b7-be92-a47545d6a593":{"position":{"vector":[-1407,814]},"visualization":{"show":false,"width":1027.671875,"height":386.9453125}},"5a0ae9a2-d021-4039-b752-95b2c98fad6d":{"position":{"vector":[-1407,742]},"visualization":{"show":false,"width":1012.86328125,"height":218.54296875}},"5b86bd6b-4c8d-48a2-9963-48cc5af494a4":{"position":{"vector":[-429,284]}},"b3954425-c469-414d-ac9f-1c6e761caeaf":{"position":{"vector":[-1136,670]},"visualization":{"show":false,"width":1322.34375}},"46f4f3b0-4bcb-4544-b1e8-8c694b4c25ff":{"position":{"vector":[-221,501]},"visualization":{"show":true}},"05029dae-7d24-417b-ac02-feef471f5cc9":{"position":{"vector":[-207,474]},"visualization":{"show":true}},"d411f763-8a96-491d-a890-f8a3c57f3057":{"position":{"vector":[-1136,598]}},"4800c66d-811f-4445-9470-7e73888e7d96":{"position":{"vector":[-1136,526]},"visualization":{"show":true,"width":375.13671875}},"798c8890-4e91-448e-953c-cebebc0fce04":{"position":{"vector":[-1407,526]},"visualization":{"show":true}}},"widget":{},"snapshot":"eJyFVF1v2jAUfc+vuAKpJGUkBDqprcqqhHZVH7Yi0W2ggCJDTGrNsSPbUaG/fnK+IKV0ebLvPfee4/uRjeAJTBViERKR7SOJgSQpFwoQpcam4X1GK/qJ+w4ptPo0gfdnetr5wHlMceil5DRmyvjrhqK/DY7yWIPutyhJKZZHjt9EZoiSN6QIZ4bRbsPj+OknxIJnqbFGdJ1RpHAoOc00AhDbuV9hZACAPl/CqDDZEisw8TYV0DEDP5wtz4OJIG84nC97gR/O6/tsaTmmGXi5SQOtXuDleI2yOha0vHAisJRYtiqeq4LnsknjvaPxjmkKZq+gKWR5FY3fpGm34QHn5QO+AfWC4ZUwRlgMCVq/EIYBsQhWmVKcQaojYc2TFWF57WQl1e0XWq/sDaEKi0puUL9qOfpOORfmgcWCszMI/CPE3qIV2/ajDJ9FhvUpZlzgSvi46lSue82lOnjDXppbtqt/WMcDGefD7gGlrtGYS9X6mEVxhWjNVdVKzwilOaAs255+WNK7NopjgWOdac1pljA5Cmx7miXQ0YSd5T7EMBJEWDlxG0KxfoNeK1tgFEHH+SWxkA6KBKF454x5hB3vadwb9AcXvXsmuXOHdu7QISzNlK22qlPnhlGR0E6RkDhUPFT5NpsCx3gLLb9otXcNs0XXvL3xwtm3RdS1vsC8vM/z+4KVSL9C+u+Qfo3Mh/MaZiPz9qYc1Aq5N1XgllVrvShL12hcNeldt3/46b6VrnqB9NIWiT7IMD+dYV43f4KEgkGjlz8QYfapn0Qjzq3iBv8JM/4BQJC81A==","import":{}}}
